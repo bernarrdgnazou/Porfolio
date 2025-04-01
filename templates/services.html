@@ -1,0 +1,504 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <link href="{{ url_for('static', filename='css/services.css') }}" rel="stylesheet">
+<style>
+  /* Effets Spéciaux Éblouissants */
+
+  :root {
+	--neon-orange: #FFA500; /* Orange néon */
+    --neon-cyan: #0FF0FC;
+	--neon-turquoise: #40E0D0; /* Turquoise néon */
+    --neon-magenta: #FF00FF;
+	--neon-pink: #FF007F; /* Rose néon */
+    --neon-purple: #9D00FF;
+	--glass-color: rgba(255, 255, 255, 0.1); /* Fond transparent */
+    --glow-intensity: 0.8;
+  }
+
+
+
+
+  /* Icônes Holographiques */
+  .icon-hologram {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, 
+      var(--neon-cyan), 
+      var(--neon-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 8px currentColor);
+    position: relative;
+  }
+
+  .icon-hologram::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: inherit;
+    z-index: -1;
+    filter: blur(12px);
+    opacity: 0.6;
+  }
+
+  /* Cartes Cyberpunk */
+.card-cyber {
+  background: rgba(15, 15, 25, 0.7) !important;
+  border: 1px solid rgba(255, 165, 0, 0.4) !important;
+  border-radius: 0 !important;
+  box-shadow: 
+    0 0 12px rgba(255, 165, 0, 0.3),
+    inset 0 0 12px rgba(255, 165, 0, 0.2) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+}
+
+.card-cyber:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    2px 2px 24px rgba(255, 165, 0, 0.6),
+    inset 3px 3px 12px rgba(0, 255, 252, 0.3) !important;
+  border-color: var(--neon-cyan) !important;
+}
+
+
+  /* Effet "Data Stream" sur les titres */
+  .title-data {
+    position: relative;
+    display: inline-block;
+  }
+
+  .title-data::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      var(--neon-orange), 
+      var(--neon-cyan),
+      var(--neon-magenta));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .card-cyber:hover .title-data::after {
+    transform: scaleX(1);
+  }
+
+  /* Animation "Matrix Rain" optionnelle */
+  @keyframes matrixRain {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100vh; }
+  }
+</style>
+<style>
+  /* Styles spécifiques à la page "Mes Services" */
+
+  /* Nouvelles couleurs personnalisées */
+  :root {
+    --neon-orange: #FFA500; /* Orange néon */
+    --neon-turquoise: #40E0D0; /* Turquoise néon */
+    --neon-pink: #FF007F; /* Rose néon */
+    --glass-color: rgba(255, 255, 255, 0.1); /* Fond transparent */
+  }
+
+  /* Section Hero */
+  .hero.bg-galaxy {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(46, 46, 46, 0.1), rgba(0, 0, 0, 0.1)); /* Fond semi-transparent */
+    background-size: 200% 200%;
+    animation: waveBackground 10s ease-in-out infinite;
+    border-bottom: 2px solid var(--neon-orange);
+    box-shadow: 0 0 20px var(--neon-orange), 0 0 40px var(--neon-orange);
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+    isolation: isolate; /* Assure que l'effet fonctionne correctement */
+  }
+
+.hero .neon-text {
+  background: linear-gradient(45deg, var(--neon-orange), var(--neon-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 5s ease-in-out infinite;
+}
+
+  /* Section Services */
+  .services.bg-dark {
+    background-color: rgba(255, 255, 255, 0.1); /* Fond transparent */
+    padding: 4rem 0;
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.1), 0 0 40px rgba(255, 165, 0, 0.05);
+  }
+
+  .services .card {
+    background-color: rgba(46, 46, 46, 0.5); /* Fond semi-transparent */
+    border: 2px solid var(--neon-orange);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+  }
+
+  .services .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px var(--neon-orange), 0 0 40px var(--neon-orange);
+  }
+
+  .services .card-body {
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .services .icon-neon {
+    font-size: 3rem;
+    color: var(--neon-orange);
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .services .icon-neon:hover {
+    color: var(--neon-turquoise);
+    transform: scale(1.2);
+  }
+
+  .services .card-title {
+    font-family: 'Audiowide', sans-serif;
+    color: var(--neon-orange);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .services .card-text {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--text-color);
+    font-size: 1rem;
+  }
+
+  /* Section Call to Action */
+  .cta.bg-galaxy {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(46, 46, 46, 0.1), rgba(0, 0, 0, 0.1)); /* Fond semi-transparent */
+    background-size: 200% 200%;
+    animation: waveBackground 10s ease-in-out infinite;
+    border-top: 2px solid var(--neon-orange);
+    box-shadow: 0 0 20px var(--neon-orange), 0 0 40px var(--neon-orange);
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+  }
+
+  .cta .neon-text {
+    background: linear-gradient(45deg, var(--neon-orange), var(--neon-turquoise), var(--neon-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 5s ease-in-out infinite;
+  }
+
+  .cta .btn-neon {
+    font-family: 'VT323', monospace;
+    background-color: transparent;
+    border: 2px solid var(--neon-orange);
+    color: var(--neon-orange);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .cta .btn-neon:hover {
+    background-color: var(--neon-orange);
+    color: var(--black);
+    box-shadow: 0 0 10px var(--neon-orange), 0 0 20px var(--neon-orange);
+  }
+
+  /* Animations */
+  @keyframes waveBackground {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  #particleeser-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /* Place les particules en arrière-plan */
+}
+</style>
+{% endblock %}
+
+{% block content %}
+        <div id="particleeser-js"></div>
+<!-- Section Hero -->
+<section class="hero text-center py-5 bg-galaxy">
+  <div class="container">
+    <h1 class="display-4 fw-bold neon-text">Mes Services</h1>
+    <p class="lead mt-3 neon-text">Découvrez les services que je propose pour répondre à vos besoins numériques.</p>
+  </div>
+</section>
+
+<!-- Section Services -->
+
+
+
+
+<!-- Services Grid - Version Cyber-Élégante -->
+<section class="services py-6">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Sécurité & Pentest -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card-cyber h-100 p-4">
+          <div class="card-body text-center">
+            <i class="fas fa-user-shield icon-hologram mb-4"></i>
+            <h3 class="title-data mb-3" style="color: var(--neon-cyan)">Sécurité Offensive</h3>
+            <p class="mb-0" style="color: #B8B8FF">
+              Tests d'intrusion, audit de vulnérabilités et renforcement de vos systèmes contre les cybermenaces.
+            </p>
+            <div class="mt-3">
+              <span class="badge bg-dark me-1" style="
+                border: 1px solid var(--neon-orange);
+                color: var(--neon-orange);
+              ">Pentest</span>
+              <span class="badge bg-dark" style="
+                border: 1px solid var(--neon-cyan);
+                color: var(--neon-cyan);
+              ">OWASP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Développement Python -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card-cyber h-100 p-4">
+          <div class="card-body text-center">
+            <i class="fab fa-python icon-hologram mb-4"></i>
+            <h3 class="title-data mb-3" style="color: var(--neon-magenta)">Technicien Python</h3>
+            <p class="mb-0" style="color: #B8B8FF">
+              Développement de scripts intelligents, automation et solutions backend performantes avec Flask/Django.
+            </p>
+            <div class="mt-3">
+              <span class="badge bg-dark me-1" style="
+                border: 1px solid var(--neon-magenta);
+                color: var(--neon-magenta);
+              ">Flask</span>
+              <span class="badge bg-dark" style="
+                border: 1px solid var(--neon-purple);
+                color: var(--neon-purple);
+              ">Pandas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Administration Linux -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card-cyber h-100 p-4">
+          <div class="card-body text-center">
+            <i class="fas fa-terminal icon-hologram mb-4"></i>
+            <h3 class="title-data mb-3" style="color: var(--neon-orange)">Administration Système Linux</h3>
+            <p class="mb-0" style="color: #B8B8FF">
+              Configuration avancée de serveurs, scripts Bash puissants et optimisation d'environnements Unix.
+            </p>
+            <div class="mt-3">
+              <span class="badge bg-dark me-1" style="
+                border: 1px solid var(--neon-orange);
+                color: var(--neon-orange);
+              ">Bash</span>
+              <span class="badge bg-dark" style="
+                border: 1px solid var(--neon-cyan);
+                color: var(--neon-cyan);
+              ">Docker</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Science -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card-cyber h-100 p-4">
+          <div class="card-body text-center">
+            <i class="fas fa-brain icon-hologram mb-4"></i>
+            <h3 class="title-data mb-3" style="color: var(--neon-purple)">Intelligence Artificielle</h3>
+            <p class="mb-0" style="color: #B8B8FF">
+              Extraction d'insights stratégiques à partir de vos données avec Pandas, NumPy et TensorFlow, entrainement de model spécifique et vision par odinateur.
+            </p>
+            <div class="mt-3">
+              <span class="badge bg-dark me-1" style="
+                border: 1px solid var(--neon-purple);
+                color: var(--neon-purple);
+              ">ML</span>
+              <span class="badge bg-dark" style="
+                border: 1px solid var(--neon-magenta);
+                color: var(--neon-magenta);
+              ">NLP</span>
+              <span class="badge bg-dark" style="
+                border: 1px solid var(--neon-magenta);
+                color: var(--neon-magenta);
+              ">OpenCV</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Formation Technique -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card-cyber h-100 p-4">
+          <div class="card-body text-center">
+            <i class="fas fa-graduation-cap icon-hologram mb-4"></i>
+            <h3 class="title-data mb-3" style="color: var(--neon-magenta)">E-Formation Tech</h3>
+            <p class="mb-0" style="color: #B8B8FF">
+              Formation personnalisée en cybersécurité, Python avancé et administration système Linux et technologie du numérique.
+            </p>
+            <div class="mt-3">
+              <span class="badge bg-dark me-1" style="
+                border: 1px solid var(--neon-yellow);
+                color: var(--neon-yellow);
+              ">Python</span>
+              <span class="badge bg-dark" style="
+                border: 1px solid var(--neon-purple);
+                color: var(--neon-purple);
+              ">Système Unix</span>
+              <span class="badge bg-dark" style="
+                border: 1px solid var(--neon-magenta);
+                color: var(--neon-magenta);
+              ">Git</span>
+              <span class="badge bg-dark" style="
+                border: 1px solid var(--neon-purple);
+                color: var(--neon-purple);
+              ">Github</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+		<!-- Répétition Maths/Physique -->
+<div class="col-lg-4 col-md-6">
+  <div class="card-cyber h-100 p-4">
+    <div class="card-body text-center">
+      <i class="fas fa-atom icon-hologram mb-4" style="color: var(--neon-cyan)"></i>
+      <h3 class="title-data mb-3" style="color: var(--neon-cyan)">Coaching STEM</h3>
+      <p class="mb-0" style="color: #B8B8FF">
+        Cours particuliers en maths/physique niveau collège et lycée.
+      </p>
+      <div class="mt-3">
+        <span class="badge bg-dark me-1" style="border: 1px solid var(--neon-cyan); color: var(--neon-cyan);">Maths</span>
+        <span class="badge bg-dark" style="border: 1px solid var(--neon-orange); color: var(--neon-orange);">Physique</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-4 col-md-6">
+  <div class="card-cyber h-100 p-4 position-relative">
+    <!-- Effet fenêtre GUI -->
+    <div class="position-absolute top-0 end-0 m-3"></div>
+    
+    <div class="card-body text-center">
+      <i class="fas fa-border-all icon-hologram mb-4" style="
+        background: linear-gradient(45deg, #6EE7B7, #3B82F6);
+        -webkit-background-clip: text;
+        background-clip: text;
+      "></i>
+      <h3 class="title-data mb-3" style="
+        background: linear-gradient(45deg, #6EE7B7, #3B82F6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      ">UI Python Sur Mesure</h3>
+      <p class="mb-0" style="color: #B8B8FF">
+        Interfaces desktop modernes avec Tkinter/CustomTkinter. Conversion en exe pour Windows/Linux.
+      </p>
+      <div class="mt-3">
+        <span class="badge bg-dark me-1 mb-1" style="border: 1px solid #6EE7B7; color: #6EE7B7;">Tkinter</span>
+        <span class="badge bg-dark me-1 mb-1" style="border: 1px solid #6EE7B7; color: #6EE7B7;">CustomTkinter</span>
+        <span class="badge bg-dark me-1 mb-1" style="border: 1px solid #3B82F6; color: #3B82F6;">PyInstaller</span>
+        <span class="badge bg-dark mb-1" style="border: 1px solid #8B5CF6; color: #8B5CF6;">Custom Themes</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Expertise Réseaux -->
+<div class="col-lg-4 col-md-6">
+  <div class="card-cyber h-100 p-4">
+    <div class="card-body text-center">
+      <i class="fas fa-network-wired icon-hologram mb-4" style="color: var(--neon-orange)"></i>
+      <h3 class="title-data mb-3" style="color: var(--neon-orange)">Solutions Réseaux</h3>
+      <p class="mb-0" style="color: #B8B8FF">
+        Architecture des réseaux, configuration des routes avec des protocoles sécurisés.
+      </p>
+      <div class="mt-3">
+        <span class="badge bg-dark me-1" style="border: 1px solid var(--neon-orange); color: var(--neon-orange);">Cisco</span>
+        <span class="badge bg-dark" style="border: 1px solid var(--neon-cyan); color: var(--neon-cyan);">Packet Tracer</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modélisation 3D -->
+<div class="col-lg-4 col-md-6">
+  <div class="card-cyber h-100 p-4">
+    <div class="card-body text-center">
+      <i class="fas fa-cube icon-hologram mb-4" style="color: var(--neon-magenta)"></i>
+      <h3 class="title-data mb-3" style="color: var(--neon-magenta)">Asset 3D Dynamique</h3>
+      <p class="mb-0" style="color: #B8B8FF">
+        Création de modèles 3D, Objets, Pièce, enviraonnement.
+      </p>
+      <div class="mt-3">
+        <span class="badge bg-dark me-1" style="border: 1px solid var(--neon-magenta); color: var(--neon-magenta);">Blender</span>
+      </div>
+    </div>
+  </div>
+</div>		
+		
+    </div>
+  </div>
+</section>
+
+
+<!-- Section Call to Action -->
+<section class="cta py-5 bg-galaxy">
+  <div class="container text-center">
+    <h2 class="" style="color: var(--neon-orange);">Prêt à transformer vos idées en réalité ?</h2>
+    <p class="lead mt-3">Contactez-moi dès aujourd'hui pour discuter de votre projet.</p>
+    <a href="{{ url_for('contact') }}" class="btn btn-neon btn-lg mt-3">
+      <i class="fas fa-envelope me-2"></i>Contactez-moi
+    </a>
+  </div>
+</section>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+  particlesJS.load('particleeser-js', '{{ url_for("static", filename="js/particleeser.json") }}', function() {
+    console.log('particleeser.js loaded!');
+  });
+</script>
+{% endblock %}

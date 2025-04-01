@@ -1,0 +1,611 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <link href="{{ url_for('static', filename='css/contact.css') }}" rel="stylesheet">
+<style>
+  /* Styles spécifiques à la page "Contact" */
+
+  /* Nouvelles couleurs personnalisées */
+  :root {
+    --neon-violet: #1aff00; /* Violet néon */
+    --neon-cyan: #00FFFF; /* Cyan néon */
+    --glass-color: rgba(255, 255, 255, 0.1); /* Fond transparent */
+  }
+
+  /* Section Hero */
+  .hero.bg-galaxy {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(46, 46, 46, 0.1), rgba(0, 0, 0, 0.1)); /* Fond semi-transparent */
+    background-size: 200% 200%;
+    animation: waveBackground 10s ease-in-out infinite;
+    border-bottom: 2px solid var(--neon-violet);
+    box-shadow: 0 0 20px var(--neon-violet), 0 0 40px var(--neon-violet);
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+    isolation: isolate; /* Assure que l'effet fonctionne correctement */
+  }
+
+  .hero .neon-text {
+    background: linear-gradient(45deg, var(--neon-violet), var(--neon-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 5s ease-in-out infinite;
+  }
+
+  /* Section Formulaire de Contact */
+  .contact.bg-dark {
+    background-color: rgba(255, 255, 255, 0.1); /* Fond transparent */
+    padding: 4rem 0;
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(26, 255, 0, 0.1), 0 0 40px rgba(26, 255, 0, 0.05);
+  }
+
+  .neon-form {
+    background-color: rgba(46, 46, 46, 0.5); /* Fond semi-transparent */
+    border: 2px solid var(--neon-violet);
+    border-radius: 1px;
+    padding: 2rem;
+    box-shadow: 0 0 2px var(--neon-violet), 0 0 3px var(--neon-violet);
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+  }
+
+  .neon-form .form-label {
+    font-family: 'Audiowide', sans-serif;
+    color: var(--neon-violet);
+    font-size: 1.2rem;
+    text-shadow: 0 0 5px var(--neon-violet);
+  }
+
+  .neon-form .neon-input {
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    border: 1px solid var(--neon-violet);
+    color: var(--text-color); /* Texte en blanc */
+    font-family: 'Share Tech Mono', monospace;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .neon-form .neon-input:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .neon-form .btn-neon {
+    font-family: 'VT323', monospace;
+    background-color: transparent;
+    border: 2px solid var(--neon-violet);
+    color: var(--neon-violet);
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .neon-form .btn-neon:hover {
+    background-color: var(--neon-violet);
+    color: #000;
+    box-shadow: 0 0 15px var(--neon-violet), 0 0 30px var(--neon-violet);
+    text-shadow: 0 0 5px #000;
+  }
+
+  .neon-form .btn-neon::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      transparent 45%,
+      var(--neon-cyan) 50%,
+      transparent 55%
+    );
+    transform: rotate(30deg);
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+
+  .neon-form .btn-neon:hover::before {
+    opacity: 0.6;
+    animation: shine 1.5s infinite;
+  }
+
+  /* Section Informations de Contact */
+  .info.bg-galaxy {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(46, 46, 46, 0.1), rgba(0, 0, 0, 0.1)); /* Fond semi-transparent */
+    background-size: 200% 200%;
+    animation: waveBackground 10s ease-in-out infinite;
+    border-top: 2px solid var(--neon-violet);
+    box-shadow: 0 0 30px var(--neon-violet), 0 0 50px var(--neon-violet);
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+  }
+
+  .info .contact-card {
+    background: rgba(46, 46, 46, 0.3);
+    border: 1px solid var(--neon-violet);
+    border-radius: 5px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+
+  .info .contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px var(--neon-violet);
+  }
+
+  .info .icon-neon, .ic {
+    font-size: 3rem;
+    color: var(--neon-violet);
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px var(--neon-violet);
+  }
+
+  .info .icon-neon:hover , .ic:hover{
+    color: var(--neon-cyan);
+    transform: scale(1.2);
+    text-shadow: 0 0 15px var(--neon-cyan);
+  }
+
+  .info .neon-text {
+    font-family: 'Audiowide', sans-serif;
+    color: var(--neon-violet);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 5px var(--neon-violet);
+  }
+
+  .info p {
+    color: var(--text-color);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .social-links a {
+    color: var(--neon-violet);
+    font-size: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .social-links a:hover {
+    color: var(--neon-cyan);
+    transform: scale(1.2);
+    text-shadow: 0 0 10px var(--neon-cyan);
+  }
+
+  /* Animations */
+  @keyframes waveBackground {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes shine {
+    0% {
+      left: -100%;
+      top: -100%;
+    }
+    100% {
+      left: 100%;
+      top: 100%;
+    }
+  }
+
+  #particleeco-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  /* Nouveaux éléments sans modifier la structure */
+  .contact-method {
+    position: relative;
+  }
+
+  .contact-method::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--neon-cyan);
+    transition: width 0.3s ease;
+  }
+
+  .contact-method:hover::after {
+    width: 100%;
+  }
+
+  .form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--neon-violet);
+    transition: width 0.3s ease;
+  }
+
+  .form-group:focus-within::after {
+    width: 100%;
+  }
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centrage des icônes */
+  gap: 15px; /* Espacement entre les icônes */
+  max-width: 250px; /* Limite la largeur pour forcer le retour à la ligne */
+  margin: auto;
+}
+
+
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <div id="particleeco-js"></div>
+
+<!-- Section Hero -->
+<section class="hero text-center py-5 bg-galaxy">
+  <div class="container">
+    <h1 class="display-4 fw-bold neon-text">Contactez-moi</h1>
+    <p class="lead mt-3 neon-text">Vous avez un projet ou une question ? Envoyez-moi un message !</p>
+    <div class="mt-4">
+      <div class="typing-demo" style="
+        width: 22ch;
+        animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 3px solid var(--neon-violet);
+        font-family: 'Share Tech Mono', monospace;
+        margin: 0 auto;
+        color: var(--neon-cyan);
+      ">
+        Envoyez votre message...
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Section Formulaire de Contact -->
+<section class="contact py-5 bg-dark">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Messages Flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} neon-alert mb-4 text-center">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('contact') }}" method="POST" class="neon-form" id="contactForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for="name" class="form-label neon-text">VOTRE NOM</label>
+                <input type="text" class="form-control neon-input" id="name" name="name" required 
+                       placeholder="Votre nom complet" minlength="2" maxlength="50">
+                <div class="invalid-feedback">Veuillez entrer un nom valide (2-50 caractères)</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-4">
+                <label for="email" class="form-label neon-text">VOTRE EMAIL</label>
+                <input type="email" class="form-control neon-input" id="email" name="email" required
+                       placeholder="exemple@email.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                <div class="invalid-feedback">Veuillez entrer une adresse email valide</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group mb-4">
+            <label for="subject" class="form-label neon-text">SUJET</label>
+            <input type="text" class="form-control neon-input" id="subject" name="subject" required
+                   placeholder="Objet de votre message" minlength="5" maxlength="100">
+            <div class="invalid-feedback">Le sujet doit contenir entre 5 et 100 caractères</div>
+          </div>
+          
+          <div class="form-group mb-4">
+            <label for="message" class="form-label neon-text">VOTRE MESSAGE</label>
+            <textarea class="form-control neon-input" id="message" name="message" rows="6" required
+                      placeholder="Décrivez votre demande en détail..." minlength="10" maxlength="1000"></textarea>
+            <div class="invalid-feedback">Le message doit contenir entre 10 et 1000 caractères</div>
+          </div>
+
+          <!-- reCAPTCHA -->
+         
+          
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-neon btn-lg px-5" id="submitBtn">
+              <i class="fas fa-paper-plane me-2"></i> ENVOYER LE MESSAGE
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CSS Spécifique -->
+<style>
+  .neon-form {
+    background: rgba(15, 15, 30, 0.8);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 2px solid var(--neon-blue);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+  }
+
+  .neon-input {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid var(--neon-blue) !important;
+    color: white !important;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+  }
+
+  .neon-input:focus {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.4) !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .neon-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .neon-alert {
+    border: 1px solid;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+  }
+
+  .alert-success {
+    border-color: var(--neon-green);
+    color: var(--neon-green);
+  }
+
+  .alert-danger {
+    border-color: var(--neon-red);
+    color: var(--neon-red);
+  }
+
+  .invalid-feedback {
+    color: var(--neon-red);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+
+  .is-invalid {
+    border-color: var(--neon-red) !important;
+  }
+
+  #submitBtn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+
+  #submitBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 240, 255, 0.5);
+  }
+
+  #submitBtn:active {
+    transform: translateY(1px);
+  }
+</style>
+
+<!-- JavaScript de Validation -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+  // Validation côté client
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    const form = e.target;
+    let isValid = true;
+
+    // Validation des champs
+    form.querySelectorAll('.neon-input').forEach(input => {
+      if (!input.checkValidity()) {
+        input.classList.add('is-invalid');
+        isValid = false;
+      } else {
+        input.classList.remove('is-invalid');
+      }
+    });
+
+    // Vérification reCAPTCHA
+    if (grecaptcha.getResponse() === '') {
+      alert('Veuillez compléter le CAPTCHA');
+      isValid = false;
+    }
+
+    if (!isValid) {
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      // Animation pendant l'envoi
+      const btn = document.getElementById('submitBtn');
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Envoi en cours...';
+      btn.disabled = true;
+    }
+  });
+
+  // Validation en temps réel
+  document.querySelectorAll('.neon-input').forEach(input => {
+    input.addEventListener('input', function() {
+      if (this.checkValidity()) {
+        this.classList.remove('is-invalid');
+      }
+    });
+  });
+</script>
+
+<!-- Section Informations de Contact -->
+<section class="info py-5 bg-galaxy">
+  <div class="container text-center">
+    <h2 class="neon-text" style="font-size: 2.5rem;">AUTRES MOYENS DE CONTACT</h2>
+    <div class="row mt-5">
+      <!-- Carte Email -->
+      <div class="col-md-4 mb-4">
+        <div class="contact-card">
+          <i class="fas fa-envelope fa-3x ic"></i>
+          <h3 class="neon-text contact-method">EMAIL</h3>
+          <p>bernardgnazou@gmail.com</p>
+          <a href="mailto:bernardgnazou@gmail.com" class="btn btn-neon btn-sm mt-2">
+            <i class="fas fa-paper-plane me-1"></i> Écrire
+          </a>
+        </div>
+      </div>
+
+      <!-- Carte Téléphone -->
+      <div class="col-md-4 mb-4">
+        <div class="contact-card">
+          <i class="fas fa-phone fa-3x ic"></i>
+          <h3 class="neon-text contact-method">TÉLÉPHONE</h3>
+          <div class="mb-2">
+            <p>+225 07 88 85 82 65</p>
+            <a href="tel:+2250788858265" class="btn btn-neon btn-sm">
+              <i class="fas fa-phone me-1"></i> Appeler
+            </a>
+          </div>
+          <div>
+            <p>+225 05 04 17 48 43</p>
+            <a href="tel:+2250504174843" class="btn btn-neon btn-sm">
+              <i class="fas fa-phone me-1"></i> Appeler
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte Réseaux Sociaux -->
+<div class="col-md-4 mb-4">
+  <div class="contact-card">
+    <i class="fas fa-hashtag fa-3x ic"></i>
+    <h3 class="neon-text contact-method">RÉSEAUX SOCIAUX</h3>
+    
+    <div class="social-links text-center">
+      <!-- Ligne 1 -->
+      <div class="d-flex justify-content-center mb-3">
+        <a href="https://www.linkedin.com/in/goudi-bernard-gnazou" target="_blank" title="LinkedIn" class="mx-2">
+          <i class="fab fa-linkedin fa-2x"></i>
+        </a>
+        <a href="https://github.com/bernarrdgnazou" target="_blank" title="GitHub" class="mx-2">
+          <i class="fab fa-github fa-2x"></i>
+        </a>
+        <a href="https://discord.gg/x4RR2qPC" target="_blank" title="Discord" class="mx-2">
+          <i class="fab fa-discord fa-2x"></i>
+        </a>
+      </div>
+      
+      <!-- Ligne 2 -->
+      <div class="d-flex justify-content-center mb-3">
+        <a href="https://www.facebook.com/akouna.matata.3304" target="_blank" title="Facebook" class="mx-2">
+          <i class="fab fa-facebook fa-2x"></i>
+        </a>
+        <a href="https://www.instagram.com/bernardgnazou?igsh=YzljYTk1ODg3Zg==" target="_blank" title="Instagram" class="mx-2">
+          <i class="fab fa-instagram fa-2x"></i>
+        </a>
+        <a href="https://x.com/@BGnazou91766" target="_blank" title="X (Twitter)" class="mx-2">
+          <i class="fab fa-twitter fa-2x"></i>
+        </a>
+      </div>
+      
+      <!-- Ligne 3 -->
+      <div class="d-flex justify-content-center">
+        <a href="https://www.reddit.com/u/ArtemixRoot/s/RHRbGTG6NG" target="_blank" title="Reddit" class="mx-2">
+          <i class="fab fa-reddit fa-2x"></i>
+        </a>
+        <a href="https://t.me/ChauneMeurphy" target="_blank" title="Télégramme" class="mx-2">
+          <i class="fab fa-telegram fa-2x"></i>
+        </a>
+        <a href="https://wa.me/2250788858265" target="_blank" title="WhatsApp" class="mx-2">
+          <i class="fab fa-whatsapp fa-2x"></i>
+        </a>
+      </div>
+    </div>
+    
+    <div class="mt-3 text-center">
+      <small class="text-muted">(Survolez les icônes pour voir les plateformes)</small>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+  particlesJS.load('particleeco-js', '{{ url_for("static", filename="js/particleeco.json") }}', function() {
+    console.log('particleeco.js loaded!');
+  });
+
+  // Animation pour les inputs
+  document.querySelectorAll('.neon-input').forEach(input => {
+    input.addEventListener('focus', function() {
+      this.parentNode.classList.add('active');
+    });
+    input.addEventListener('blur', function() {
+      if (this.value === '') {
+        this.parentNode.classList.remove('active');
+      }
+    });
+  });
+</script>
+{% endblock %}
