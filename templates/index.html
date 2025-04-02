@@ -3,6 +3,7 @@
 <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
+    <div id="particlee-js"></div>
 
 <!-- Section Hero -->
 <section class="hero text-center py-5 bg-galaxy">
@@ -14,5 +15,11 @@
     </a>
   </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+  particlesJS.load('particlee-js', '{{ url_for("static", filename="js/particlee.json") }}', function() {
+    console.log('particlee.js loaded!');
+  });</script>
 
 {% endblock %}

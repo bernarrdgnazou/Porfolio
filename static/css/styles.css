@@ -81,7 +81,7 @@ header .nav-link {
 }
 
 header .nav-link:hover {
-  color: var(--neon-pink);
+  color: var(--neon-blue);
 }
 
 /* Menu Burger (Responsive) */

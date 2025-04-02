@@ -4,47 +4,29 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
-import requests
-
-app = Flask(__name__)
-app.secret_key = 'ton_secret_key_ici'  # Nécessaire pour les messages flash
 
 # Chargement des variables d'environnement
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY')
+app.secret_key = os.environ.get('SECRET_KEY', 'fallback_secret_key_for_development')
 
-# Configuration
+# Configuration SMTP
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 EMAIL_ADDRESS = os.environ.get('GMAIL_USER')
 EMAIL_PASSWORD = os.environ.get('GMAIL_PASSWORD')
-RECAPTCHA_SECRET = os.environ.get('RECAPTCHA_SECRET')
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
-        # Vérification reCAPTCHA
-        recaptcha_response = request.form.get('g-recaptcha-response')
-        recaptcha_data = {
-            'secret': RECAPTCHA_SECRET,
-            'response': recaptcha_response
-        }
-        r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=recaptcha_data)
-        result = r.json()
-        
-        if not result.get('success'):
-            flash('Veuillez compléter le CAPTCHA correctement', 'danger')
-            return redirect(url_for('contact'))
-
-        # Récupération des données
+        # Récupération des données du formulaire
         name = request.form.get('name', '').strip()
         email = request.form.get('email', '').strip()
         subject = request.form.get('subject', '').strip()
         message = request.form.get('message', '').strip()
 
-        # Validation supplémentaire
+        # Validation des champs
         if not all([name, email, subject, message]):
             flash('Tous les champs sont obligatoires', 'danger')
             return redirect(url_for('contact'))
@@ -53,7 +35,7 @@ def contact():
         msg = MIMEMultipart()
         msg['From'] = EMAIL_ADDRESS
         msg['To'] = EMAIL_ADDRESS
-        msg['Subject'] = f"New Contact: {subject}"
+        msg['Subject'] = f"Nouveau message de contact: {subject}"
         
         email_body = f"""
         Nom: {name}
@@ -75,8 +57,13 @@ def contact():
             flash('Votre message a été envoyé avec succès! Je vous répondrai dès que possible.', 'success')
             return redirect(url_for('contact'))
             
+        except smtplib.SMTPException as e:
+            app.logger.error(f"Erreur SMTP: {str(e)}")
+            flash("Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer plus tard.", 'danger')
+            return redirect(url_for('contact'))
         except Exception as e:
-            flash(f"Une erreur s'est produite lors de l'envoi: {str(e)}", 'danger')
+            app.logger.error(f"Erreur inattendue: {str(e)}")
+            flash("Une erreur inattendue s'est produite. Veuillez réessayer plus tard.", 'danger')
             return redirect(url_for('contact'))
 
     return render_template('contact.html')
