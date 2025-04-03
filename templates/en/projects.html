@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <link href="{{ url_for('static', filename='css/projects.css') }}" rel="stylesheet">
+<style>
+  /* Styles spécifiques à la page "Mes Projets" */
+  
+  .category-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+  }
+  
+  /* Cartes de projet améliorées */
+  .project-card {
+    background: rgba(20, 20, 40, 0.7);
+    border: 1px solid var(--neon-blue);
+    transition: all 0.3s ease;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    z-index: -1;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink), var(--neon-purple));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+  }
+  
+  .project-card:hover::before {
+    opacity: 0.3;
+  }
+  
+  .project-card .card-body {
+    padding: 1.5rem;
+  }
+  
+  .project-card .card-title {
+    font-family: 'Audiowide', sans-serif;
+    color: var(--neon-blue);
+    margin-bottom: 1rem;
+  }
+  
+  .project-card .card-text {
+    color: #ddd;
+    font-size: 0.95rem;
+  }
+  
+  .project-card .badge {
+    font-family: 'Share Tech Mono', monospace;
+    background: rgba(0, 255, 255, 0.1);
+    color: var(--neon-blue);
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Styles spécifiques par catégorie */
+  .completed .category-title {
+    color: var(--neon-green);
+  }
+  
+  .in-progress .category-title {
+    color: var(--neon-yellow);
+  }
+  
+  .future .category-title {
+    color: var(--neon-purple);
+  }
+  
+  /* Animation des badges */
+  @keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  
+  .in-progress .badge {
+    animation: pulse 2s infinite;
+  }
+
+</style>
+
+<style>
+  /* Styles spécifiques à la page "Mes Projets" */
+
+  /* Section Hero */
+  .hero.bg-galaxy {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(46, 46, 46, 0.1), rgba(0, 0, 0, 0.1)); /* Fond semi-transparent */
+    background-size: 200% 200%;
+    animation: waveBackground 10s ease-in-out infinite;
+    border-bottom: 2px solid var(--neon-blue);
+    box-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+  }
+
+  .hero .neon-text, .no {
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 5s ease-in-out infinite;
+  }
+
+  /* Section Projets */
+  .projects.bg-dark {
+    background-color: rgba(0, 0, 0, 0.1); /* Fond semi-transparent */
+    padding: 4rem 0;
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1), 0 0 40px rgba(0, 255, 255, 0.05);
+  }
+
+  .projects .card {
+    background-color: rgba(46, 46, 46, 0.5); /* Fond semi-transparent */
+    border: 2px solid var(--neon-blue);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+  }
+
+  .projects .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+  }
+
+  .projects .card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  .projects .card-title {
+    font-family: 'Audiowide', sans-serif;
+    color: var(--neon-blue);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .projects .card-text {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--text-color);
+    font-size: 1rem;
+  }
+
+  .projects .btn-neon {
+    font-family: 'VT323', monospace;
+    background-color: transparent;
+    border: 2px solid var(--neon-blue);
+      border-radius: 1px;
+    color: var(--neon-blue);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .projects .btn-neon:hover {
+    background-color: var(--neon-blue);
+    color: var(--black);
+    box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+  }
+
+  /* Section Call to Action */
+  .cta.bg-galaxy {
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(46, 46, 46, 0.1), rgba(0, 0, 0, 0.1)); /* Fond semi-transparent */
+    background-size: 200% 200%;
+    animation: waveBackground 10s ease-in-out infinite;
+    border-top: 2px solid var(--neon-blue);
+    box-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+    backdrop-filter: blur(10px); /* Effet de verre transparent */
+    -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+  }
+
+  .cta .neon-text {
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 5s ease-in-out infinite;
+  }
+
+  .cta .btn-neon {
+    font-family: 'VT323', monospace;
+    background-color: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .cta .btn-neon:hover {
+    background-color: var(--neon-blue);
+    color: var(--black);
+    box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+  }
+
+  /* Animations */
+  @keyframes waveBackground {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  #particleepro-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /* Place les particules en arrière-plan */
+}
+</style>
+{% endblock %}
+
+{% block content %}
+	<div id="particleepro-js"></div>
+
+
+
+<!-- Hero Section -->
+<section class="hero text-center py-5 bg-galaxy">
+  <div class="container">
+    <h1 class="display-4 fw-bold neon-text">My Projects</h1>
+    <p class="lead mt-3 neon-text">Explore my journey through technical achievements</p>
+  </div>
+</section>
+
+<!-- Projects Section - Final Version -->
+<section class="projects py-5 bg-dark">
+  <div class="container">
+    
+    <!-- 1. COMPLETED PROJECTS (Your images) -->
+    <div class="project-category completed">
+      <h2 class="text-center category-title mb-5" style="color: cyan">
+        <i class="fas fa-trophy me-2"></i>Completed Projects
+        <small class="d-block mt-2">6 concrete implementations</small>
+      </h2>
+
+      <div class="row g-4">
+        <!-- God Messenger -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card h-100">
+            <div class="project-media" style="height: 200px; background: #1a1a2e;">
+              <!-- You'll add your image here -->
+              <div class="h-100 d-flex align-items-center justify-content-center text-center p-3">
+                <i class="fas fa-dove fa-8x" style="color: #6a0dad;"></i>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>God Messenger</h3>
+              <p>No-code religious platform on WordPress featuring spiritual resources and guided meditations.</p>
+              <div class="tech-tags">
+                <span class="tag">WordPress</span>
+                <span class="tag">XAMPP</span>
+                <span class="tag">No-Code</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- InondArlet -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card h-100">
+            <div class="project-media" style="height: 200px; background: #16213e;">
+              <div class="h-100 d-flex align-items-center justify-content-center">
+                <i class="fas fa-water fa-8x" style="color: #00b4d8;"></i>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>InondArlet</h3>
+              <p>Flood prediction system developed during a 48-hour hackathon.</p>
+              <div class="tech-tags">
+                <span class="tag">Python</span>
+                <span class="tag">Express JS</span>
+                <span class="tag">Open Weather API</span>
+                <span class="tag">AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CyberMorse -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card h-100">
+            <div class="project-media" style="height: 200px; background: #0f0e17;">
+              <div class="h-100 d-flex align-items-center justify-content-center">
+                <i class="fas fa-code fa-8x" style="color: #ff8906;"></i>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>CyberMorse</h3>
+              <p>Cryptographic text/Morse translator with advanced encryption options.</p>
+              <div class="tech-tags">
+                <span class="tag">Python</span>
+                <span class="tag">Cryptography</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Optimizer -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card h-100">
+            <div class="project-media" style="height: 200px; background: #1b262c;">
+              <div class="h-100 d-flex align-items-center justify-content-center">
+                <i class="fas fa-filter fa-8x" style="color: #3282b8;"></i>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>Optimizer</h3>
+              <p>Automation script for operational research optimization.</p>
+              <div class="tech-tags">
+                <span class="tag">Algorithms</span>
+                <span class="tag">Bash</span>
+                <span class="tag">Python</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- M3D - 3D Modeling -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card h-100">
+            <div class="project-media" style="height: 200px; background: linear-gradient(135deg, #434343 0%, #000000 100%);">
+              <div class="h-100 d-flex align-items-center justify-content-center">
+                <i class="fas fa-cube fa-8x" style="color: #FF9E00;"></i> <!-- 3D Icon -->
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>M3D Studio</h3>
+              <p>Realistic office environment modeling for HR management.</p>
+              <div class="tech-tags">
+                <span class="tag">Blender</span>
+                <span class="tag">Modeling</span>
+                <span class="tag">Python Scripting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Computer Network -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card h-100">
+            <div class="project-media" style="height: 200px; background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);">
+              <div class="h-100 d-flex align-items-center justify-content-center">
+                <i class="fas fa-network-wired fa-8x" style="color: #00B4D8;"></i> <!-- Network Icon -->
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>EduNet</h3>
+              <p>Secure network architecture for educational institutions featuring VLANs, QoS and real-time monitoring.</p>
+              <div class="tech-tags">
+                <span class="tag" style="border-color: #00B4D8;">Cisco Packet Tracer</span>
+                <span class="tag" style="border-color: #00B4D8;">TCP/IP</span>
+                <span class="tag" style="border-color: #00B4D8;">OSPF Routing</span>
+                <span class="tag" style="border-color: #00B4D8;">Security</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Complementary CSS -->
+<style>
+  .project-card {
+    background: rgba(30, 30, 60, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    border: 1px solid rgba(0, 255, 255, 0.1);
+  }
+
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
+  }
+
+  .project-media {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 1rem 0;
+  }
+
+  .tag {
+    background: rgba(0, 255, 255, 0.1);
+    color: var(--neon-blue);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    border: 1px solid var(--neon-blue);
+  }
+
+  progress {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  progress::-webkit-progress-bar {
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+  }
+
+  progress::-webkit-progress-value {
+    background: var(--neon-yellow);
+    border-radius: 3px;
+  }
+
+  .completed .project-media {
+    border-bottom: 3px solid var(--neon-green);
+  }
+
+  .in-progress .project-media {
+    border-bottom: 3px solid var(--neon-yellow);
+  }
+
+  .future .project-media {
+    border-bottom: 3px solid var(--neon-purple);
+  }
+</style>
+
+<!-- Call to Action Section -->
+<section class="cta py-5 bg-galaxy">
+  <div class="container text-center">
+    <h2 class="neon-text">Have a project to collaborate on?</h2>
+    <p class="lead mt-3">I'm open to opportunities for innovative project collaborations.</p>
+    <a href="{{ url_for('en_contact') }}" class="btn btn-neon btn-lg mt-3">
+      <i class="fas fa-handshake me-2"></i>Let's Discuss
+    </a>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+  particlesJS.load('particleepro-js', '{{ url_for("static", filename="js/particleepro.json") }}', function() {
+    console.log('particleepro.js loaded!');
+  });
+</script>
+{% endblock %}

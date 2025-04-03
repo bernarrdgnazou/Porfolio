@@ -1,0 +1,1225 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <link href="{{ url_for('static', filename='css/about.css') }}" rel="stylesheet">
+
+<style>
+/* Section Hero */
+.hero.bg-galaxy {
+  background-color: rgba(0, 0, 0, 0.1); /* Fond noir semi-transparent */
+  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(46, 46, 46, 0.1), rgba(0, 0, 0, 0.1));
+  background-size: 200% 200%;
+  animation: waveBackground 10s ease-in-out infinite;
+  border-bottom: 2px solid var(--neon-yellow);
+  box-shadow: 0 0 20px var(--neon-yellow), 0 0 40px var(--neon-yellow);
+  backdrop-filter: blur(10px); /* Effet de verre transparent */
+  -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+}
+
+.hero .neon-text, .no {
+  background: linear-gradient(45deg, var(--neon-red), var(--neon-yellow), var(--neon-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 5s ease-in-out infinite;
+}
+
+/* Section À propos */
+.about.bg-dark {
+  background-color: rgba(255, 255, 255, 0.1); /* Fond transparent */
+  padding: 4rem 0;
+  backdrop-filter: blur(10px); /* Effet de verre transparent */
+  -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1), 0 0 40px rgba(0, 255, 255, 0.05);
+}
+
+.about .neon-text {
+  font-family: 'Audiowide', sans-serif;
+  color: var(--neon-yellow);
+  font-size: 2px;
+}
+
+.about p {
+  color: var(--text-color); /* Texte en blanc */
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* Section Compétences */
+.skills.bg-galaxy {
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(46, 46, 46, 0.1), rgba(0, 0, 0, 0.1));
+  background-size: 200% 200%;
+  animation: waveBackground 10s ease-in-out infinite;
+  border-top: 2px solid var(--neon-yellow);
+  box-shadow: 0 0 20px var(--neon-yellow), 0 0 40px var(--neon-yellow);
+  backdrop-filter: blur(10px); /* Effet de verre transparent */
+  -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+}
+
+.skills .icon-neon {
+  font-size: 3rem;
+  color: var(--neon-yellow);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.skills .icon-neon:hover {
+  color: var(--neon-red);
+  transform: scale(1.2);
+}
+
+.skills .neon-text {
+  font-family: 'Audiowide', sans-serif;
+  color: var(--neon-yellow);
+  font-size: 1.2rem;
+}
+
+.skills p {
+  color: var(--text-color); /* Texte en blanc */
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+}
+
+/* Section Expérience */
+.experience.bg-dark {
+  background-color: rgba(255, 255, 255, 0.1); /* Fond transparent */
+  padding: 4rem 0;
+  backdrop-filter: blur(10px); /* Effet de verre transparent */
+  -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1), 0 0 40px rgba(0, 255, 255, 0.05);
+}
+
+.experience .card {
+  background-color: rgba(46, 46, 46, 0.5); /* Fond semi-transparent */
+  border: 2px solid var(--neon-yellow);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.experience .card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 20px var(--neon-yellow), 0 0 40px var(--neon-yellow);
+}
+
+.experience .card-title {
+  font-family: 'Audiowide', sans-serif;
+  color: var(--neon-yellow);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.experience .card-text {
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--text-color); /* Texte en blanc */
+  font-size: 1rem;
+}
+
+/* Animations */
+@keyframes waveBackground {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+#particleeab-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /* Place les particules en arrière-plan */
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+    <div id="particleeab-js"></div>
+
+<!-- Section Hero -->
+<section class="hero text-center py-5 bg-galaxy">
+  <div class="container">
+    <h1 class="display-4 fw-bold neon-text">À propos de moi</h1>
+    <p class="lead mt-3 neon-text">Découvrez qui je suis, mes compétences et ma passion pour la technologie.</p>
+  </div>
+</section>
+
+<section class="about py-5 bg-dark">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="mb-4 no">Qui suis-je ?</h2>
+        <p class="lead">
+          Je suis <strong>Goudi Bernard Gnazou</strong>, un passionné d’informatique, d'IA, de cybersécurité et d’innovation technologique. Étudiant en <strong>Réseaux et Sécurité Informatique</strong>, je développe des solutions intelligentes et sécurisées pour répondre aux défis du numérique. 💡
+        </p>
+
+        <p>
+          Depuis toujours, j’ai soif de défis et d’apprentissage. Mon expertise s’étend du <strong>développement web et mobile</strong> (<i class="fas fa-code text-info"></i> Flask, Django, React, Kotlin) à la <strong>cybersécurité</strong> (<i class="fas fa-shield-alt text-danger"></i> Hacking éthique, Cryptographie), en passant par l’<strong>intelligence artificielle</strong> (<i class="fas fa-brain text-success"></i> Data Science, Machine Learning).
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="ambition py-5 bg-dark text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto text-center">
+        <!-- Titre avec icône étoilée -->
+        <h2 class="mb-4 no">
+          <i class="fas fa-rocket text-warning mr-2"></i> 
+          <span class="text-gradient">Mon Ambition : Relier Innovation & Sécurité</span>
+        </h2>
+
+        <!-- Citation d'accroche -->
+        <blockquote class="blockquote mb-5">
+          <i class="fas fa-quote-left text-info mr-2"></i>
+          <em>"Éduquer, Innover, Sécuriser : trois piliers pour un numérique africain souverain."</em>
+          <i class="fas fa-quote-right text-info ml-2"></i>
+        </blockquote>
+
+        <!-- Grille d'ambitions thématiques -->
+        <div class="row">
+          <!-- Éducation & Formation -->
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="p-4 bg-gradient-dark rounded-lg h-100">
+              <i class="fas fa-chalkboard-teacher fa-3x text-gold mb-3" style="color: gold;"></i>
+              <h4>Éducation & Formation</h4>
+              <p>
+                Créer des programmes accessibles pour former la nouvelle génération aux 
+                <strong>réseaux informatiques</strong> 
+                <i class="fas fa-network-wired text-primary"></i> et à la 
+                <strong>cybersécurité</strong>.
+              </p>
+            </div>
+          </div>
+
+          <!-- IA & Data Science -->
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="p-4 bg-gradient-dark rounded-lg h-100">
+              <i class="fas fa-brain fa-3x text-purple mb-3" style="color: purple;"></i>
+              <h4>IA & Data Science</h4>
+              <p>
+                Développer des modèles d'IA pour 
+                <strong>détecter les intrusions</strong> 
+                <i class="fas fa-shield-virus text-success"></i> et optimiser les infrastructures.
+              </p>
+            </div>
+          </div>
+
+          <!-- IoT & Réseaux -->
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="p-4 bg-gradient-dark rounded-lg h-100">
+              <i class="fas fa-wifi fa-3x text-cyan mb-3" style="color: cyan;"></i>
+              <h4>IoT & Réseaux</h4>
+              <p>
+                Concevoir des architectures sécurisées pour les 
+                <strong>villes intelligentes</strong> 
+                <i class="fas fa-city text-orange" style="color: orange;"></i> en Afrique.
+              </p>
+            </div>
+          </div>
+
+          <!-- Développement Logiciel -->
+          <div class="col-md-6 col-lg-6 mb-4">
+            <div class="p-4 bg-gradient-dark rounded-lg h-100">
+              <i class="fas fa-laptop-code fa-3x text-info mb-3"></i>
+              <h4>Développement Logiciel</h4>
+              <p>
+                Bâtir des solutions <strong>open-source</strong> 
+                <i class="fab fa-ubuntu text-white"></i> en Python, Bash, Powershell, Rust et C++ pour automatiser la sécurité.
+              </p>
+            </div>
+          </div>
+
+          <!-- Cybersécurité Globale -->
+          <div class="col-md-6 col-lg-6 mb-4">
+            <div class="p-4 bg-gradient-dark rounded-lg h-100">
+              <i class="fas fa-user-secret fa-3x text-muted mb-3"></i>
+              <h4>Cybersécurité Globale</h4>
+              <p>
+                Unir <strong>IA</strong>, <strong>réseaux</strong> et <strong>IoT</strong> 
+                <i class="fas fa-link text-info"></i> pour protéger les écosystèmes critiques.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bannière d'appel à l'action -->
+        <div class="mt-5 p-4 bg-black-50 rounded">
+          <h4 class="text-uppercase mb-3">
+            <i class="fas fa-hands-helping text-warning mr-2"></i>
+            Mon Engagement
+          </h4>
+          <p class="mb-0">
+            "Transformer chaque compétence en opportunité pour 
+            <strong>l'Afrique technologique de demain</strong>."
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="identity py-5 bg-black text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <h2 class="text-center mb-5 no">
+          <i class="fas fa-dna text-warning mr-2" style="color: purple;"></i>
+          <span class="text-gradient">Ce qui me définit</span>
+        </h2>
+
+        <!-- Ligne des 3 valeurs fondamentales -->
+        <div class="row mb-5">
+          <!-- Audace -->
+          <div class="col-md-4 mb-4">
+            <div class="feature-card p-4 bg-dark-800 rounded-lg text-center h-100">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-bolt fa-3x text-warning"></i>
+              </div>
+              <h3 class="text-gold mb-3 no">Audace</h3>
+              <p>
+                Oser explorer et repousser les limites du possible en cybersécurité et IoT.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Innovation -->
+          <div class="col-md-4 mb-4">
+            <div class="feature-card p-4 bg-dark-800 rounded-lg text-center h-100">
+              <div class="icon-wrapper mb-3">
+                <i class="fa-solid fa-lightbulb fa-3x text-primary text-warning"></i>
+              </div>
+              <h3 class="text-gold mb-3 no">Innovation</h3>
+              <p>
+                Transformer les idées en solutions concrètes pour l'Afrique numérique.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Apprentissage continu -->
+          <div class="col-md-4 mb-4">
+            <div class="feature-card p-4 bg-dark-800 rounded-lg text-center h-100">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-book-open-reader fa-3x text-warning"></i>
+              </div>
+              <h3 class="text-gold mb-3 no">Apprentissage continu</h3>
+              <p>
+                Me former chaque jour pour maîtriser réseaux, IA et développement.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grille des caractéristiques personnelles -->
+        <div class="row">
+          <!-- Colonne 1 -->
+          <div class="col-md-6">
+            <!-- Passion Transformative -->
+            <div class="feature-card mb-5 p-4 bg-dark-800 rounded-lg text-center">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-fire-alt fa-3x text-warning"></i>
+              </div>
+              <h3 class="text-gold mb-3 no">Passion Transformative</h3>
+              <p>
+                Mon carburant ? <strong>Résoudre l'insoluble</strong>. Que ce soit un bug tenace ou une faille réseau, 
+                j'y vois une énigme à déjouer.
+              </p>
+            </div>
+
+            <!-- Esprit 360° -->
+            <div class="feature-card mb-5 p-4 bg-dark-800 rounded-lg text-center">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-project-diagram fa-3x text-warning"></i>
+              </div>
+              <h3 class="text-gold mb-3 no">Esprit 360°</h3>
+              <p>
+                <strong>Synapses connectées</strong> en permanence entre réseaux, code et IA. 
+                Mon cerveau modélise des architectures avant même le café du matin.
+              </p>
+            </div>
+          </div>
+
+          <!-- Colonne 2 -->
+          <div class="col-md-6">
+            <!-- ADN Pédagogique -->
+            <div class="feature-card mb-5 p-4 bg-dark-800 rounded-lg text-center">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-hands-helping fa-3x text-warning"></i>
+              </div>
+              <h3 class="text-gold mb-3 no">ADN Pédagogique</h3>
+              <p>
+                <strong>Transmettre = Créer x 1000</strong>. Mes tutoriels Python ou mes workshops sécurité 
+                sont conçus pour éclairer autant que pour former.
+              </p>
+            </div>
+
+            <!-- Vision Africatech -->
+            <div class="feature-card mb-5 p-4 bg-dark-800 rounded-lg text-center">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-globe-africa fa-3x text-warning"></i>
+              </div>
+              <h3 class="text-gold mb-3 no">Vision Africatech</h3>
+              <p>
+                <strong>L'Afrique comme terrain de jeu technologique</strong>. Je vois les cybercafés de Dakar 
+                comme des incubateurs, les fablabs d'Abidjan comme des laboratoires.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bannière signature -->
+        <div class="text-center mt-4">
+          <div class="d-inline-block p-3 border-top border-bottom border-warning">
+            <p class="mb-0 font-italic">
+              <i class="fas fa-asterisk text-warning mr-2"></i>
+              "<strong>Codeur le jour</strong>, <strong>pentester la nuit, l'IA et le réseau informatique mon passe temps</strong>, <strong>visionnaire 24h/24</strong>"
+              <i class="fas fa-asterisk text-warning ml-2"></i>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Section Compétences -->
+<section class="skills py-5 bg-galaxy">
+  <div class="container">
+    <h2 class="text-center mb-5 no">Mes Compétences</h2>
+    
+    <!-- Compétences Techniques -->
+    <h3 class="text-center mb-4 neon-cyan">Compétences Techniques</h3>
+    <div class="row">
+      <!-- Ligne 1 -->
+      <div class="col-md-4 mb-4">
+        <div class="skill-card p-4 h-100">
+          <i class="fas fa-robot fa-3x mb-3" style="color: #FF6EC7"></i>
+          <h4>Intelligence Artificielle</h4>
+          <ul class="skill-items">
+            <li>Développement de modèles IA/ML</li>
+            <li>Outils : TensorFlow, Scikit-learn</li>
+            <li>Prompt engineering avancé</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="skill-card p-4 h-100">
+          <i class="fas fa-magic fa-3x mb-3" style="color: #00D8FF"></i>
+          <h4>Solutions No-Code</h4>
+          <ul class="skill-items">
+            <li>Développement sans code</li>
+            <li>Automatisation de workflows</li>
+            <li>Plateformes : Wordpress, Wix</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="skill-card p-4 h-100">
+          <i class="fas fa-shield-alt fa-3x mb-3" style="color: #00fffc"></i>
+          <h4>Sécurité Informatique</h4>
+          <ul class="skill-items">
+            <li>Pentesting & Hacking Éthique</li>
+            <li>Kali Linux, Wireshark</li>
+            <li>Analyse de vulnérabilités</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Ligne 2 -->
+      <div class="col-md-4 mb-4">
+        <div class="skill-card p-4 h-100">
+          <i class="fas fa-network-wired fa-3x mb-3" style="color: #ff00ff"></i>
+          <h4>Réseaux Informatiques</h4>
+          <ul class="skill-items">
+            <li>Architecture TCP/IP</li>
+            <li>Cisco Packet Tracer</li>
+            <li>Configuration VLANs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="skill-card p-4 h-100">
+          <i class="fas fa-code fa-3x mb-3" style="color: #ff9900"></i>
+          <h4>Développement Informatique</h4>
+          <ul class="skill-items">
+            <li>Python, Bash, Kotlin</li>
+            <li>Scripting sécurité</li>
+            <li>Automatisation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="skill-card p-4 h-100">
+          <i class="fab fa-linux fa-3x mb-3" style="color: #00ff00"></i>
+          <h4>Systèmes & DevOps</h4>
+          <ul class="skill-items">
+            <li>Linux/Windows Server</li>
+            <li>Docker, Git, CI/CD</li>
+            <li>PostgreSQL, MySQL</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soft Skills -->
+    <h3 class="text-center mb-4 mt-5 neon-pink">Soft Skills</h3>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="skill-card p-4 h-100">
+          <i class="fas fa-users fa-3x mb-3" style="color: #ffcc00"></i>
+          <h4>Collaboration</h4>
+          <ul class="skill-items">
+            <li>Encadrement d'équipe</li>
+            <li>Travail collaboratif</li>
+            <li>Pédagogie technique</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="skill-card p-4 h-100">
+          <i class="fas fa-lightbulb fa-3x mb-3" style="color: #00ccff"></i>
+          <h4>Résolution de Problèmes</h4>
+          <ul class="skill-items">
+            <li>Analyse critique</li>
+            <li>Pensée algorithmique</li>
+            <li>Débogage complexe</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="skill-card p-4 h-100">
+          <i class="fas fa-brain fa-3x mb-3" style="color: #9966ff"></i>
+          <h4>Autonomie</h4>
+          <ul class="skill-items">
+            <li>Auto-formation rapide</li>
+            <li>Adaptabilité technologique</li>
+            <li>Gestion de projets</li>
+          </ul>
+        </div>
+      </div>
+      
+
+
+    <div class="">
+      <!-- Ligne 1 -->
+      <div class="">
+        <div class="skill-card p-4 h-100">
+          <i class="fas fa-code fa-3x mb-3 text-warning"></i>
+          <h4>Programmation</h4>
+          <!-- Conteneur des sphères et des tubes -->
+    <div style="width: 100%; max-width: 100%; margin: 0 auto; background: linear-gradient(135deg, #e4bb16 0%, #f8ff34 100%); padding: 5px; border-radius: 20px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" style="width:100%; height:100%;">
+  <defs>
+    <!-- Filtre pour effet de verre -->
+    <filter id="glassEffect" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"></feGaussianBlur>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.15 0" result="glass"></feColorMatrix>
+      <feComposite in="SourceGraphic" in2="glass" operator="over"></feComposite>
+    </filter>
+
+    <!-- Filtre de lueur -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+    </filter>
+
+    <!-- Animation pour flux d'énergie -->
+    <linearGradient id="energyFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3498DB">
+        <animate attributeName="offset" values="0;1" dur="3s" repeatCount="indefinite"></animate>
+      </stop>
+      <stop offset="100%" stop-color="#2980B9" stop-opacity="0">
+        <animate attributeName="offset" values="0;1" dur="3s" repeatCount="indefinite"></animate>
+      </stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Fond sombre -->
+  <rect width="100%" height="100%" fill="#000"></rect>
+
+  <!-- Syntaxes des langages en arrière-plan -->
+  <g font-family="monospace" font-size="14" fill="rgba(200,100,0,0.5)" text-anchor="start">
+    <!-- Bash -->
+    <text x="50" y="40">#!/bin/bash</text>
+    <text x="50" y="60">echo "Hello World"</text>
+
+    <!-- Python -->
+    <text x="700" y="50">def main():</text>
+    <text x="720" y="70">    print("Hello")</text>
+
+    <!-- JavaScript -->
+    <text x="50" y="100">function hello() {</text>
+    <text x="70" y="120">  console.log('Hi');</text>
+
+    <!-- Java -->
+    <text x="650" y="100">public class Main {</text>
+    <text x="670" y="120">  public static void main() {</text>
+
+    <!-- C++ -->
+    <text x="50" y="160">#include &lt;iostream&gt;</text>
+    <text x="50" y="180">int main() {</text>
+
+    <!-- PHP -->
+    <text x="650" y="160">&lt;?php</text>
+    <text x="650" y="180">echo "Hello";</text>
+
+    <!-- Ruby -->
+    <text x="50" y="220">def hello</text>
+    <text x="50" y="240">  puts "Hello"</text>
+
+    <!-- Rust -->
+    <text x="650" y="220">fn main() {</text>
+    <text x="670" y="240">  println!("Hello");</text>
+
+    <!-- Go -->
+    <text x="50" y="280">package main</text>
+    <text x="50" y="300">func main() {</text>
+
+    <!-- Kotlin -->
+    <text x="650" y="280">fun main() {</text>
+    <text x="670" y="300">  println("Hello")</text>
+
+    <!-- Scala -->
+    <text x="50" y="340">object Main {</text>
+    <text x="70" y="360">  def main(args: Array[String]) {</text>
+
+    <!-- Perl -->
+    <text x="650" y="340">#!/usr/bin/perl</text>
+    <text x="650" y="360">print "Hello\n";</text>
+
+    <!-- PowerShell -->
+    <text x="50" y="400">Write-Host "Hello"</text>
+
+    <!-- C -->
+    <text x="650" y="400">#include &lt;stdio.h&gt;</text>
+    <text x="650" y="420">int main() {</text>
+
+    <!-- Dart -->
+    <text x="50" y="460">void main() {</text>
+    <text x="70" y="480">  print('Hello');</text>
+
+    <!-- SQL -->
+    <text x="650" y="460">SELECT * FROM users</text>
+    <text x="650" y="480">WHERE id = 1;</text>
+  </g>
+
+  <!-- Fond en verre transparent -->
+  <rect width="800" height="600" rx="20" ry="20" fill="rgba(30, 60, 90, 0.4)" filter="url(#glassEffect)" stroke="rgba(0,0,0,0.2)" stroke-width="2"></rect>
+
+  <!-- Cercle d'énergie autour de Bash -->
+  <circle cx="400" cy="300" r="210" fill="none" stroke="#4A90E2" stroke-width="2" opacity="0.5">
+    <animate attributeName="r" values="210;220;210" dur="4s" repeatCount="indefinite"></animate>
+    <animate attributeName="opacity" values="0.5;0.8;0.5" dur="4s" repeatCount="indefinite"></animate>
+  </circle>
+
+  <!-- Bash au centre -->
+  <g transform="translate(400, 300)">
+    <circle cx="0" cy="0" r="60" fill="rgba(44, 62, 80, 0.8)" stroke="#4A90E2" stroke-width="3" filter="url(#glow)"></circle>
+    <text x="0" y="5" font-family="Arial" font-size="24" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Bash</text>
+    <text x="0" y="28" font-family="Arial" font-size="14" fill="#FFFFFF" text-anchor="middle">85%</text>
+  </g>
+
+  <!-- 15 Langages de programmation orbitant autour de Bash -->
+
+  <!-- Python -->
+  <g transform="translate(400, 300) rotate(0) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#306998" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Python</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">95%</text>
+  </g>
+
+  <!-- JavaScript -->
+  <g transform="translate(400, 300) rotate(24) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#F7DF1E" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="black" text-anchor="middle">JavaScript</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="black" text-anchor="middle">50%</text>
+  </g>
+
+  <!-- Java -->
+  <g transform="translate(400, 300) rotate(48) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#5382A1" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Java</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">75%</text>
+  </g>
+
+  <!-- C++ -->
+  <g transform="translate(400, 300) rotate(72) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#00599C" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">C++</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">50%</text>
+  </g>
+
+  <!-- PHP -->
+  <g transform="translate(400, 300) rotate(96) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#777BB3" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">PHP</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">80%</text>
+  </g>
+
+  <!-- Ruby -->
+  <g transform="translate(400, 300) rotate(120) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#CC342D" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Ruby</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">70%</text>
+  </g>
+
+  <!-- Rust -->
+  <g transform="translate(400, 300) rotate(144) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#000000" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="#DEA584" text-anchor="middle">Rust</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="#DEA584" text-anchor="middle">75%</text>
+  </g>
+
+  <!-- Go -->
+  <g transform="translate(400, 300) rotate(168) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#00ADD8" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Go</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">30%</text>
+  </g>
+
+  <!-- Kotlin -->
+  <g transform="translate(400, 300) rotate(192) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#7F52FF" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Kotlin</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">85%</text>
+  </g>
+
+  <!-- Scala -->
+  <g transform="translate(400, 300) rotate(216) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#DC322F" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Scala</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">53%</text>
+  </g>
+
+  <!-- Perl -->
+  <g transform="translate(400, 300) rotate(240) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#0073A1" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Perl</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">72%</text>
+  </g>
+
+  <!-- PowerShell -->
+  <g transform="translate(400, 300) rotate(264) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#012456" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="#5391FE" text-anchor="middle">PowerShell</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="#5391FE" text-anchor="middle">65%</text>
+  </g>
+
+  <!-- C -->
+  <g transform="translate(400, 300) rotate(288) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#555555" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">C</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">60%</text>
+  </g>
+
+  <!-- Dart -->
+  <g transform="translate(400, 300) rotate(312) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#0175C2" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Dart</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">70%</text>
+  </g>
+
+  <!-- SQL -->
+  <g transform="translate(400, 300) rotate(336) translate(0, -180)">
+    <rect x="-45" y="-20" width="90" height="40" rx="5" fill="#E38800" filter="url(#glow)"></rect>
+    <text x="0" y="0" font-family="Arial" font-size="16" fill="white" text-anchor="middle">SQL</text>
+    <text x="0" y="20" font-family="Arial" font-size="14" fill="white" text-anchor="middle">70%</text>
+  </g>
+
+  <!-- Lignes énergétiques bidirectionnelles -->
+  <g>
+    <!-- Python -->
+    <path d="M400 120 L400 240" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="4s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M400 240 L400 120" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="4s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- JavaScript -->
+    <path d="M471 129 L428 248" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="3.8s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M428 248 L471 129" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="3.8s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- Java -->
+    <path d="M536 164 L444 262" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="3.6s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M444 262 L536 164" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="3.6s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- C++ -->
+    <path d="M586 223 L453 283" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="4.2s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M453 283 L586 223" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="4.2s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- PHP -->
+    <path d="M614 300 L460 300" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="3.9s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M460 300 L614 300" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="3.9s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- Ruby -->
+    <path d="M586 377 L453 317" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="4.1s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M453 317 L586 377" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="4.1s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- Rust -->
+    <path d="M536 436 L444 338" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="3.7s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M444 338 L536 436" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="3.7s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- Go -->
+    <path d="M471 471 L428 352" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="4.3s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M428 352 L471 471" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="4.3s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- Kotlin -->
+    <path d="M400 480 L400 360" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="3.5s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M400 360 L400 480" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="3.5s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- Scala -->
+    <path d="M329 471 L372 352" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="4.4s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M372 352 L329 471" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="4.4s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- Perl -->
+    <path d="M264 436 L356 338" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="3.3s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M356 338 L264 436" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="3.3s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- PowerShell -->
+    <path d="M214 377 L347 317" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="4.5s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M347 317 L214 377" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="4.5s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- C -->
+    <path d="M186 300 L340 300" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="3.2s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M340 300 L186 300" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="3.2s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- Dart -->
+    <path d="M214 223 L347 283" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="4.6s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M347 283 L214 223" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="4.6s" repeatCount="indefinite"></animate>
+    </path>
+
+    <!-- SQL -->
+    <path d="M264 164 L356 262" stroke="url(#energyFlow)" stroke-width="4" opacity="0.8">
+      <animate attributeName="stroke-dasharray" values="5,15;10,10;15,5" dur="3.4s" repeatCount="indefinite"></animate>
+    </path>
+    <path d="M356 262 L264 164" stroke="#3498DB" stroke-width="2" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="15,5;10,10;5,15" dur="3.4s" repeatCount="indefinite"></animate>
+    </path>
+  </g>
+
+  <!-- Rayons lumineux périodiques -->
+  <g opacity="0.3">
+    <line x1="400" y1="0" x2="400" y2="600" stroke="#FFFFFF" stroke-width="1">
+      <animate attributeName="x1" values="400;420;400;380;400" dur="5s" repeatCount="indefinite"></animate>
+      <animate attributeName="x2" values="400;380;400;420;400" dur="5s" repeatCount="indefinite"></animate>
+    </line>
+    <line x1="0" y1="300" x2="800" y2="300" stroke="#FFFFFF" stroke-width="1">
+      <animate attributeName="y1" values="300;320;300;280;300" dur="6s" repeatCount="indefinite"></animate>
+      <animate attributeName="y2" values="300;280;300;320;300" dur="6s" repeatCount="indefinite"></animate>
+    </line>
+  </g>
+</svg>
+
+    </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Style CSS -->
+<style>
+  .skill-card {
+    background: rgba(15, 20, 40, 0.7);
+    border-radius: 10px;
+    border-left: 3px solid;
+    transition: all 0.3s ease;
+  }
+
+  .skill-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+  }
+
+  .neon-cyan {
+    color: #00ffff;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+  }
+
+  .neon-pink {
+    color: #ff00ff;
+    text-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
+  }
+
+  .skill-items li:before {
+    content: "▹";
+    color: var(--neon-yellow);
+    font-size: 1.2em;
+  }
+</style>
+
+<!-- Section Expérience Professionnelle -->
+<section class="experience py-5 bg-dark">
+  <div class="container">
+    <h2 class="text-center mb-5 no">
+      <i class="fas fa-briefcase text-purple mr-2"></i>
+      <span class="text-gradient">Mon Parcours Professionnel</span>
+    </h2>
+
+    <!-- Timeline Expérience -->
+    <div class="timeline">
+      <!-- Stage FabLab -->
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-icon bg-cyan">
+            <i class="fas fa-microchip"></i>
+          </div>
+          <h3>Stagiaire en Innovation Technologique</h3>
+          <span class="timeline-date">2025 - Présent</span>
+          <h4>FabLab UVCI</h4>
+        </div>
+        <div class="timeline-content">
+          <ul>
+            <li><i class="fas fa-caret-right text-blue"></i> Développement de prototypes IoT sécurisés</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Assistance technique pour les projets étudiants</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Expérimentation avec Arduino</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Documentation technique des projets</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">IoT</span>
+            <span class="tag">Arduino</span>
+            <span class="tag">Cybersécurité</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hackathon -->
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-icon bg-pink">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <h3>Participant - Technovore Hackathon</h3>
+          <span class="timeline-date">2025</span>
+          <h4>ESATIC</h4>
+        </div>
+        <div class="timeline-content">
+          <ul>
+            <li><i class="fas fa-caret-right text-blue"></i> Développement d'une solution face aux catastrophes environnementales locales</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Collaboration intensive en équipe pluridisciplinaire</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Pitch devant un jury d'experts</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">Hackathon</span>
+            <span class="tag">Inondation</span>
+            <span class="tag">Météorologie</span>
+            <span class="tag">Teamwork</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIE DE DEVS -->
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-icon bg-orange">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <h3>Consultant & Formateur Python</h3>
+          <span class="timeline-date">2023 - 2025</span>
+          <h4>VIE DE DEVS</h4>
+        </div>
+        <div class="timeline-content">
+          <ul>
+            <li><i class="fas fa-caret-right text-blue"></i> Audit et optimisation de codes sources Python</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Encadrement d'une équipe de 6 développeurs</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Formation en programmation avancée</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Orienté Objet</span>
+            <span class="tag">Formation</span>
+            <span class="tag">Team Lead</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Surveillance examens -->
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-icon bg-green">
+            <i class="fas fa-user-graduate"></i>
+          </div>
+          <h3>Surveillant & Correcteur d'Épreuves</h3>
+          <span class="timeline-date">2022 - 2024</span>
+          <h4>Établissement Scolaire (Collège le Jour Divo )</h4>
+        </div>
+        <div class="timeline-content">
+          <ul>
+            <li><i class="fas fa-caret-right text-blue"></i> Organisation des sessions d'examen</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Correction rigoureuse des copies</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Gestion des conflits et stress</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">Pédagogie</span>
+            <span class="tag">Organisation</span>
+            <span class="tag">Rigueur</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Professeur particulier -->
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-icon bg-blue">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <h3>Professeur Particulier</h3>
+          <span class="timeline-date">2022 - 2025</span>
+          <h4>Mathématiques & Physique</h4>
+        </div>
+        <div class="timeline-content">
+          <ul>
+            <li><i class="fas fa-caret-right text-blue"></i> Enseignement personnalisé à domicile</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Préparation aux examens nationaux</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Adaptation aux différents niveaux</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">Enseignement</span>
+            <span class="tag">Mathématiques</span>
+            <span class="tag">Physique</span>
+            <span class="tag">Pédagogie</span>
+          </div>
+        </div>
+      </div>
+
+<!-- e-formateur-->
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <div class="timeline-icon bg-cyan">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <h3>E-formateur</h3>
+          <span class="timeline-date">2025</span>
+          <h4>Technologie Du Numérique</h4>
+        </div>
+        <div class="timeline-content">
+          <ul>
+            <li><i class="fas fa-caret-right text-blue"></i> Enseignement sur la programmation générale</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Préparation aux outils incontournables</li>
+            <li><i class="fas fa-caret-right text-blue"></i> Adaptation aux différents niveaux</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tag">Enseignement</span>
+            <span class="tag">Programmation</span>
+            <span class="tag">Git</span>
+            <span class="tag">Github</span>
+            <span class="tag">Pédagogie</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Style CSS -->
+<style>
+  .timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-left: 50px;
+  }
+
+  .timeline:before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, #8b5cf6, #ec4899);
+  }
+
+  .timeline-card {
+    position: relative;
+    margin-bottom: 30px;
+    background: rgba(30, 30, 60, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s;
+    border-left: 3px solid;
+  }
+
+  .timeline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+  }
+
+  .timeline-icon {
+    position: absolute;
+    left: -60px;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 0 0 4px rgba(30, 30, 60, 0.7);
+  }
+
+  .bg-cyan { background: #00cecb; border-color: #00cecb; }
+  .bg-pink { background: #ff6b9e; border-color: #ff6b9e; }
+  .bg-orange { background: #ff9e40; border-color: #ff9e40; }
+  .bg-green { background: #2ecc71; border-color: #2ecc71; }
+  .bg-blue { background: #3498db; border-color: #3498db; }
+
+  .timeline-header h3 {
+    color: orange;
+    margin-bottom: 5px;
+    font-size: 1.3rem;
+  }
+
+  .timeline-header h4 {
+    color: #aaa;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .timeline-date {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+
+  .timeline-content ul {
+    padding-left: 20px;
+  }
+
+  .timeline-content li {
+    margin-bottom: 8px;
+    position: relative;
+    list-style-type: none;
+  }
+
+  .tech-tags {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    background: rgba(139, 92, 246, 0.2);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid #8b5cf6;
+  }
+
+  @media (max-width: 768px) {
+    .timeline {
+      padding-left: 30px;
+    }
+    .timeline-icon {
+      left: -45px;
+      width: 30px;
+      height: 30px;
+      font-size: 1rem;
+    }
+  }
+</style>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+  particlesJS.load('particleeab-js', '{{ url_for("static", filename="js/particleeab.json") }}', function() {
+    console.log('particleeab.js loaded!');
+  });</script>
+{% endblock %}

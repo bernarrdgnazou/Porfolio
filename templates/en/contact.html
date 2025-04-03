@@ -294,11 +294,11 @@
 {% block content %}
     <div id="particleeco-js"></div>
 
-<!-- Section Hero -->
+<!-- Hero Section -->
 <section class="hero text-center py-5 bg-galaxy">
   <div class="container">
-    <h1 class="display-4 fw-bold neon-text">Contactez-moi</h1>
-    <p class="lead mt-3 neon-text">Vous avez un projet ou une question ? Envoyez-moi un message !</p>
+    <h1 class="display-4 fw-bold neon-text">Contact Me</h1>
+    <p class="lead mt-3 neon-text">Have a project or question? Send me a message!</p>
     <div class="mt-4">
       <div class="typing-demo" style="
         width: 22ch;
@@ -310,19 +310,18 @@
         margin: 0 auto;
         color: var(--neon-cyan);
       ">
-        Envoyez votre message...
+        Sending your message...
       </div>
     </div>
   </div>
 </section>
 
-
-<!-- Section Formulaire de Contact -->
+<!-- Contact Form Section -->
 <section class="contact py-5 bg-dark">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <!-- Messages Flash -->
+        <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
@@ -333,38 +332,38 @@
           {% endif %}
         {% endwith %}
 
-        <form action="{{ url_for('contact') }}" method="POST" class="neon-form" id="contactForm">
+        <form action="{{ url_for('en_contact') }}" method="POST" class="neon-form" id="contactForm">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group mb-4">
-                <label for="name" class="form-label neon-text">VOTRE NOM</label>
+                <label for="name" class="form-label neon-text">YOUR NAME</label>
                 <input type="text" class="form-control neon-input" id="name" name="name" required 
-                       placeholder="Votre nom complet" minlength="2" maxlength="50">
-                <div class="invalid-feedback">Veuillez entrer un nom valide (2-50 caractères)</div>
+                       placeholder="Your full name" minlength="2" maxlength="50">
+                <div class="invalid-feedback">Please enter a valid name (2-50 characters)</div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group mb-4">
-                <label for="email" class="form-label neon-text">VOTRE EMAIL</label>
+                <label for="email" class="form-label neon-text">YOUR EMAIL</label>
                 <input type="email" class="form-control neon-input" id="email" name="email" required
-                       placeholder="exemple@email.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                <div class="invalid-feedback">Veuillez entrer une adresse email valide</div>
+                       placeholder="example@email.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                <div class="invalid-feedback">Please enter a valid email address</div>
               </div>
             </div>
           </div>
           
           <div class="form-group mb-4">
-            <label for="subject" class="form-label neon-text">SUJET</label>
+            <label for="subject" class="form-label neon-text">SUBJECT</label>
             <input type="text" class="form-control neon-input" id="subject" name="subject" required
-                   placeholder="Objet de votre message" minlength="5" maxlength="100">
-            <div class="invalid-feedback">Le sujet doit contenir entre 5 et 100 caractères</div>
+                   placeholder="Message subject" minlength="5" maxlength="100">
+            <div class="invalid-feedback">Subject must be between 5-100 characters</div>
           </div>
           
           <div class="form-group mb-4">
-            <label for="message" class="form-label neon-text">VOTRE MESSAGE</label>
+            <label for="message" class="form-label neon-text">YOUR MESSAGE</label>
             <textarea class="form-control neon-input" id="message" name="message" rows="6" required
-                      placeholder="Décrivez votre demande en détail..." minlength="10" maxlength="1000"></textarea>
-            <div class="invalid-feedback">Le message doit contenir entre 10 et 1000 caractères</div>
+                      placeholder="Describe your request in detail..." minlength="10" maxlength="1000"></textarea>
+            <div class="invalid-feedback">Message must be between 10-1000 characters</div>
           </div>
 
           <!-- reCAPTCHA -->
@@ -372,7 +371,7 @@
           
           <div class="text-center mt-4">
             <button type="submit" class="btn btn-neon btn-lg px-5" id="submitBtn">
-              <i class="fas fa-paper-plane me-2"></i> ENVOYER LE MESSAGE
+              <i class="fas fa-paper-plane me-2"></i> SEND MESSAGE
             </button>
           </div>
         </form>
@@ -381,7 +380,7 @@
   </div>
 </section>
 
-<!-- CSS Spécifique -->
+<!-- Specific CSS -->
 <style>
   .neon-form {
     background: rgba(15, 15, 30, 0.8);
@@ -452,15 +451,15 @@
   }
 </style>
 
-<!-- JavaScript de Validation -->
+<!-- Validation JavaScript -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
-  // Validation côté client
+  // Client-side validation
   document.getElementById('contactForm').addEventListener('submit', function(e) {
     const form = e.target;
     let isValid = true;
 
-    // Validation des champs
+    // Field validation
     form.querySelectorAll('.neon-input').forEach(input => {
       if (!input.checkValidity()) {
         input.classList.add('is-invalid');
@@ -470,9 +469,9 @@
       }
     });
 
-    // Vérification reCAPTCHA
+    // reCAPTCHA verification
     if (grecaptcha.getResponse() === '') {
-      alert('Veuillez compléter le CAPTCHA');
+      alert('Please complete the CAPTCHA');
       isValid = false;
     }
 
@@ -480,14 +479,14 @@
       e.preventDefault();
       e.stopPropagation();
     } else {
-      // Animation pendant l'envoi
+      // Animation during submission
       const btn = document.getElementById('submitBtn');
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Envoi en cours...';
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Sending...';
       btn.disabled = true;
     }
   });
 
-  // Validation en temps réel
+  // Real-time validation
   document.querySelectorAll('.neon-input').forEach(input => {
     input.addEventListener('input', function() {
       if (this.checkValidity()) {
@@ -497,58 +496,56 @@
   });
 </script>
 
-<!-- Section Informations de Contact -->
+<!-- Contact Information Section -->
 <section class="info py-5 bg-galaxy">
   <div class="container text-center">
-    <h2 class="neon-text" style="font-size: 2.5rem;">AUTRES MOYENS DE CONTACT</h2>
+    <h2 class="neon-text" style="font-size: 2.5rem;">OTHER CONTACT METHODS</h2>
     <div class="row mt-5">
-      <!-- Carte Email -->
+      <!-- Email Card -->
       <div class="col-md-4 mb-4">
         <div class="contact-card">
           <i class="fas fa-envelope fa-3x ic"></i>
           <h3 class="neon-text contact-method">EMAIL</h3>
           <p>bernardgnazou@gmail.com &nbsp;<a href="mailto:bernardgnazou@gmail.com" class="btn btn-neon btn-sm mt-2">
-            <i class="fas fa-paper-plane me-1"></i> Écrire
+            <i class="fas fa-paper-plane me-1"></i> Write
           </a></p>
           <p>goudi.gnazou@uvci.edu.ci  <a href="mailto:goudi.gnazou@uvci.edu.ci" class="btn btn-neon btn-sm mt-2">
-            <i class="fas fa-paper-plane me-1"></i> Écrire
+            <i class="fas fa-paper-plane me-1"></i> Write
           </a></p>
           <p>artemixroot@gmail.com  &nbsp;&nbsp;&nbsp;<a href="mailto:artemixroot@gmail.com" class="btn btn-neon btn-sm mt-2">
-            <i class="fas fa-paper-plane me-1"></i> Écrire
+            <i class="fas fa-paper-plane me-1"></i> Write
           </a></p>
-          
-          
         </div>
       </div>
 
-      <!-- Carte Téléphone -->
+      <!-- Phone Card -->
       <div class="col-md-4 mb-4">
         <div class="contact-card">
           <i class="fas fa-phone fa-3x ic"></i>
-          <h3 class="neon-text contact-method">TÉLÉPHONE</h3>
+          <h3 class="neon-text contact-method">PHONE</h3>
           <div class="mb-2">
             <p>+225 07 88 85 82 65</p>
             <a href="tel:+2250788858265" class="btn btn-neon btn-sm">
-              <i class="fas fa-phone me-1"></i> Appeler
+              <i class="fas fa-phone me-1"></i> Call
             </a>
           </div>
           <div>
             <p>+225 05 04 17 48 43</p>
             <a href="tel:+2250504174843" class="btn btn-neon btn-sm">
-              <i class="fas fa-phone me-1"></i> Appeler
+              <i class="fas fa-phone me-1"></i> Call
             </a>
           </div>
         </div>
       </div>
 
-      <!-- Carte Réseaux Sociaux -->
+      <!-- Social Media Card -->
 <div class="col-md-4 mb-4">
   <div class="contact-card">
     <i class="fas fa-hashtag fa-3x ic"></i>
-    <h3 class="neon-text contact-method">RÉSEAUX SOCIAUX</h3>
+    <h3 class="neon-text contact-method">SOCIAL MEDIA</h3>
     
     <div class="social-links text-center">
-      <!-- Ligne 1 -->
+      <!-- Row 1 -->
       <div class="d-flex justify-content-center mb-3">
         <a href="https://www.linkedin.com/in/goudi-bernard-gnazou" target="_blank" title="LinkedIn" class="mx-2">
           <i class="fab fa-linkedin fa-2x"></i>
@@ -561,7 +558,7 @@
         </a>
       </div>
       
-      <!-- Ligne 2 -->
+      <!-- Row 2 -->
       <div class="d-flex justify-content-center mb-3">
         <a href="https://www.facebook.com/akouna.matata.3304" target="_blank" title="Facebook" class="mx-2">
           <i class="fab fa-facebook fa-2x"></i>
@@ -574,12 +571,12 @@
         </a>
       </div>
       
-      <!-- Ligne 3 -->
+      <!-- Row 3 -->
       <div class="d-flex justify-content-center">
         <a href="https://www.reddit.com/u/ArtemixRoot/s/RHRbGTG6NG" target="_blank" title="Reddit" class="mx-2">
           <i class="fab fa-reddit fa-2x"></i>
         </a>
-        <a href="https://t.me/ChauneMeurphy" target="_blank" title="Télégramme" class="mx-2">
+        <a href="https://t.me/ChauneMeurphy" target="_blank" title="Telegram" class="mx-2">
           <i class="fab fa-telegram fa-2x"></i>
         </a>
         <a href="https://wa.me/2250788858265" target="_blank" title="WhatsApp" class="mx-2">
@@ -589,7 +586,7 @@
     </div>
     
     <div class="mt-3 text-center">
-      <small class="text-muted">(Survolez les icônes pour voir les plateformes)</small>
+      <small class="text-muted">(Hover over icons to see platforms)</small>
     </div>
   </div>
 </div>
